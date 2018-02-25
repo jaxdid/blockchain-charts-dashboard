@@ -1,15 +1,6 @@
-const React = require('react')
-const ReactDOM = require('react-dom')
-require('./index.less')
+import React from 'react'
+import ReactDOM from 'react-dom'
+import './index.less'
+import ChartsDashboard from '../components/ChartsDashboard'
 
-class App extends React.Component {
-  render () {
-    return (
-      <div>
-        Hello World!
-      </div>
-    )
-  }
-}
-
-ReactDOM.render(<App />, document.getElementById('dashboard'))
+ReactDOM.render(<ChartsDashboard />, document.getElementById('root'))
