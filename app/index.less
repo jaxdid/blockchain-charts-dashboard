@@ -1,7 +1,32 @@
-@textColor: #fff;
-@bgColor: #2754BA;
+@bcDarkBlue: #123962;
+@bcPaleBlue: #B1D4E5;
+@bcBrightBlue: #00AEE6;
+@bcGrey: #799EB2;
+@bcIndigo: #2754BA;
 
-body {
-  color: @textColor;
-  background: @bgColor;
+.charts-dashboard {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.activity-indicator {
+  width: 2em;
+  height: 2em;
+  animation: loadingAnimation 3s infinite ease-in-out;
+
+  .block {
+    height: 2em;
+    width: 2em;
+    position: fixed;
+  }
+}
+
+@keyframes loadingAnimation {
+  25% {transform: rotate(90deg);}
+  50% {transform: rotate(180deg);}
+  75% {transform: rotate(270deg);}
+  100% {transform: rotate(360deg);}
 }
