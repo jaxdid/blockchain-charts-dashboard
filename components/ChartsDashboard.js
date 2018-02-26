@@ -41,14 +41,19 @@ class ChartsDashboard extends Component {
           this.setState({ statsData })
         }
       })
-      .catch(() => {
-        console.error(`Unable to fetch stats data.`)
-        return null
-      })
+      .catch(e => this.handleFetchingError(e, 'stats'))
+  }
+
+  handleFetchingError (e, dataType) {
+    console.error(`${e}. Unable to fetch ${dataType} data.`)
+    return null
   }
 
   render () {
-    if (this.state.stillLoading) {
+    const { statsData } = this.state
+    const stillLoading = !statsData.length
+
+    if (stillLoading) {
       return (
         <div className="charts-dashboard">
           <ActivityIndicator />
