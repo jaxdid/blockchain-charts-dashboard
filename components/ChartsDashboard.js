@@ -7,10 +7,12 @@ class ChartsDashboard extends Component {
     super(props)
 
     this.state = {
-      statsData: []
+      statsData: [],
+      chartsData: {}
     }
 
     this.getStatsData()
+    this.getChartsData()
   }
 
   getStatsData () {
@@ -30,11 +32,21 @@ class ChartsDashboard extends Component {
       .then(responses => {
         if (responses.length) {
           const statsData = responses.map(({ data }, index) => {
-            const dataRetrieved = data && data.values && data.values.length
+            if (data) {
+              const { description, name, unit, values } = data
+              const dataRetrieved = values && values.length
 
-            return {
-              data: dataRetrieved ? data : null,
-              decimalPlaces: stats[index].decimalPlaces
+              if (!dataRetrieved) {
+                return null
+              }
+
+              return {
+                description,
+                name,
+                unit,
+                values,
+                decimalPlaces: stats[index].decimalPlaces
+              }
             }
           })
 
@@ -44,16 +56,58 @@ class ChartsDashboard extends Component {
       .catch(e => this.handleFetchingError(e, 'stats'))
   }
 
+  getChartsData () {
+    const charts = [
+      'market-pricee',
+      'market-cap',
+      'trade-volume'
+    ]
+
+    const promises = charts.map(chart => {
+      return axios.get(`https://api.blockchain.info/charts/${chart}?timespan=1years&format=json&cors=true`)
+    })
+
+    axios.all(promises)
+      .then(responses => {
+        if (responses.length) {
+          const chartsData = this.state.chartsData
+
+          responses.map(response => {
+            if (/market price/i.test(response.data.name)) {
+              chartsData.marketPriceData = response.data
+            } else if (/market cap/i.test(response.data.name)) {
+              chartsData.marketCapData = response.data
+            } else if (/trade volume/i.test(response.data.name)) {
+              chartsData.tradeVolumeData = response.data
+            }
+          })
+
+          this.setState(chartsData)
+        }
+      })
+      .catch(e => this.handleFetchingError(e, 'charts'))
+  }
+
   handleFetchingError (e, dataType) {
+    const reference = `${dataType}Data`
+    const newState = this.state
+
+    newState[reference] = 'failed'
+    this.setState(newState)
+
     console.error(`${e}. Unable to fetch ${dataType} data.`)
     return null
   }
 
   render () {
-    const { statsData } = this.state
-    const stillLoading = !statsData.length
+    const { statsData, chartsData } = this.state
+    const statsFailed = statsData === 'failed'
+    const chartsFailed = chartsData === 'failed'
+    const statsLoading = !statsFailed && !statsData.length
+    const chartsLoading = !chartsFailed && Object(chartsData).keys && !Object(chartsData).keys.length
+    const loading = statsLoading || chartsLoading
 
-    if (stillLoading) {
+    if (loading) {
       return (
         <div className="charts-dashboard">
           <ActivityIndicator />
@@ -63,7 +117,8 @@ class ChartsDashboard extends Component {
 
     return (
       <div className="charts-dashboard">
-        Stats...
+        {`Stats ${statsFailed ? 'failed' : 'loaded'}...`}
+        {`Charts ${chartsFailed ? 'failed' : 'loaded'}...`}
       </div>
     )
   }
