@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import React, { Component } from 'react'
 import axios from 'axios'
 import ActivityIndicator from './ActivityIndicator'
@@ -8,7 +9,7 @@ class ChartsDashboard extends Component {
 
     this.state = {
       statsData: [],
-      chartsData: {}
+      chartsData: []
     }
 
     this.getStatsData()
@@ -17,83 +18,60 @@ class ChartsDashboard extends Component {
 
   getStatsData () {
     const stats = [
-      { stat: 'market-price', decimalPlaces: 2 },
-      { stat: 'avg-block-size', decimalPlaces: 2 },
-      { stat: 'transactions-per-second', decimalPlaces: 2 },
-      { stat: 'mempool-size', decimalPlaces: 0 },
-      { stat: 'total-bitcoins', decimalPlaces: 0 }
+      'market-price',
+      'avg-block-size',
+      'transactions-per-second',
+      'mempool-size',
+      'total-bitcoins'
     ]
 
-    const promises = stats.map(({ stat }) => {
-      return axios.get(`https://api.blockchain.info/charts/${stat}?timespan=1days&format=json&cors=true`)
-    })
-
-    axios.all(promises)
-      .then(responses => {
-        if (responses.length) {
-          const statsData = responses.map(({ data }, index) => {
-            if (data) {
-              const { description, name, unit, values } = data
-              const dataRetrieved = values && values.length
-
-              if (!dataRetrieved) {
-                return null
-              }
-
-              return {
-                description,
-                name,
-                unit,
-                values,
-                decimalPlaces: stats[index].decimalPlaces
-              }
-            }
-          })
-
-          this.setState({ statsData })
-        }
-      })
-      .catch(e => this.handleFetchingError(e, 'stats'))
+    const promises = this.createPromises(stats, '1days')
+    this.resolvePromises(promises, 'stats')
   }
 
   getChartsData () {
     const charts = [
-      'market-pricee',
+      'market-price',
       'market-cap',
       'trade-volume'
     ]
 
-    const promises = charts.map(chart => {
-      return axios.get(`https://api.blockchain.info/charts/${chart}?timespan=1years&format=json&cors=true`)
-    })
+    const promises = this.createPromises(charts, '1years')
+    this.resolvePromises(promises, 'charts')
+  }
 
+  createPromises (fragments, timespan) {
+    return fragments.map(fragment => {
+      return axios.get(`https://api.blockchain.info/charts/${fragment}?timespan=${timespan}&format=json&cors=true`)
+    })
+  }
+
+  resolvePromises (promises, dataType) {
     axios.all(promises)
       .then(responses => {
         if (responses.length) {
-          const chartsData = this.state.chartsData
+          const newData = responses.map(({ data }) => {
+            const { values } = data
+            const dataRetrieved = values && values.length
 
-          responses.map(response => {
-            if (/market price/i.test(response.data.name)) {
-              chartsData.marketPriceData = response.data
-            } else if (/market cap/i.test(response.data.name)) {
-              chartsData.marketCapData = response.data
-            } else if (/trade volume/i.test(response.data.name)) {
-              chartsData.tradeVolumeData = response.data
-            }
+            return dataRetrieved ? data : null
           })
 
-          this.setState(chartsData)
+          this.setState(previousState => {
+            const property = `${dataType}Data`
+            _.assign(previousState[property], newData)
+          })
         }
       })
-      .catch(e => this.handleFetchingError(e, 'charts'))
+      .catch(e => this.handleFetchingError(e, dataType))
   }
 
   handleFetchingError (e, dataType) {
-    const reference = `${dataType}Data`
-    const newState = this.state
+    const property = `${dataType}Data`
+    const { state } = this
 
-    newState[reference] = 'failed'
-    this.setState(newState)
+    state[property] = [{ totalFailure: true }]
+    this.setState(state)
 
     console.error(`${e}. Unable to fetch ${dataType} data.`)
     return null
@@ -101,10 +79,10 @@ class ChartsDashboard extends Component {
 
   render () {
     const { statsData, chartsData } = this.state
-    const statsFailed = statsData === 'failed'
-    const chartsFailed = chartsData === 'failed'
+    const statsFailed = _.some(statsData, 'totalFailure')
+    const chartsFailed = _.some(chartsData, 'totalFailure')
     const statsLoading = !statsFailed && !statsData.length
-    const chartsLoading = !chartsFailed && Object(chartsData).keys && !Object(chartsData).keys.length
+    const chartsLoading = !chartsFailed && !chartsData.length
     const loading = statsLoading || chartsLoading
 
     if (loading) {
