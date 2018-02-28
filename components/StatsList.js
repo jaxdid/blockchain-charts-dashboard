@@ -21,13 +21,13 @@ function renderFailedList () {
 }
 
 function renderList (data) {
-  return data.map(statData => {
-    return _.isNull(statData) ? renderFailedListItem() : renderListItem(statData)
+  return data.map((statData, index) => {
+    return _.isNull(statData) ? renderFailedListItem(index) : renderListItem(statData)
   })
 }
 
-function renderFailedListItem () {
-  return <StatsListItem key={Date.now()} error="Null stat data" />
+function renderFailedListItem (index) {
+  return <StatsListItem key={index} error="Null stat data" />
 }
 
 function renderListItem ({ name, description, unit, values }) {

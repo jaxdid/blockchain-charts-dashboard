@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import ActivityIndicator from './ActivityIndicator'
 import StatsList from './StatsList'
+import Charts from './Charts'
 
 class ChartsDashboard extends Component {
   constructor (props) {
@@ -97,7 +98,7 @@ class ChartsDashboard extends Component {
     return (
       <div className="charts-dashboard">
         <StatsList data={statsData} error={statsFailed} />
-        {`Charts ${chartsFailed ? 'failed' : 'loaded'}...`}
+        <Charts />
       </div>
     )
   }
