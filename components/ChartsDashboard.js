@@ -98,7 +98,7 @@ class ChartsDashboard extends Component {
     return (
       <div className="charts-dashboard">
         <StatsList data={statsData} error={statsFailed} />
-        <Charts />
+        <Charts data={chartsData} error={chartsFailed} />
       </div>
     )
   }
