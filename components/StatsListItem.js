@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import StatDescription from './StatDescription'
@@ -72,7 +73,7 @@ class StatsListItem extends Component {
       'Bitcoins In Circulation': 0
     }
 
-    const { y } = values.pop()
+    const { y } = _.last(values)
     const value = parseFloat(y)
       .toFixed(significantDigitsMap[name])
       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
