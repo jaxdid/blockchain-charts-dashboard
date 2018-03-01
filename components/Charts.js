@@ -33,6 +33,7 @@ function renderCharts (data) {
 
   return (
     <div className="charts">
+      <div className="chart-title">Market Values (USD)</div>
       <ResponsiveContainer className="market-values-chart" width={'99%'} height={'99%'}>
         <LineChart syncId="marketStats" data={lineChartData}>
           <Line type="monotone" dataKey="marketCap" stroke={'#00AEE6'} dot={false} isAnimationActive={false} />
@@ -44,6 +45,7 @@ function renderCharts (data) {
           />
         </LineChart>
       </ResponsiveContainer>
+      <div className="chart-title">Market Trade Volumes (USD)</div>
       <ResponsiveContainer className="market-volumes-chart" width={'99%'} height={'99%'}>
         <AreaChart syncId="marketStats" data={areaChartData}>
           <Area type="monotone" dataKey="y" stroke={'#799EB2'} fill={'#799EB2'} dot={false} isAnimationActive={false} />
