@@ -35,7 +35,13 @@ class StatsListItem extends Component {
 
     return (
       <div className="stats-list-item">
-        <span className="stat-info" onMouseEnter={this.toggleDescription}>&#9432;</span>
+        <span
+          className="stat-info"
+          onClick={this.toggleDescription}
+          onMouseEnter={this.toggleDescription}
+        >
+          &#9432;
+        </span>
         <div className="stat-name">{name}</div>
         <div className="stat-value">{value}</div>
         <div className="stat-unit">{unit}</div>
