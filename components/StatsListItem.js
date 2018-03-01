@@ -2,6 +2,7 @@ import _ from 'lodash'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import StatDescription from './StatDescription'
+import commaSeparate from '../helpers/commaSeparate'
 
 class StatsListItem extends Component {
   constructor (props) {
@@ -34,7 +35,7 @@ class StatsListItem extends Component {
 
     return (
       <div className="stats-list-item">
-        <span className="stat-info" onClick={this.toggleDescription}>&#9432;</span>
+        <span className="stat-info" onMouseEnter={this.toggleDescription}>&#9432;</span>
         <div className="stat-name">{name}</div>
         <div className="stat-value">{value}</div>
         <div className="stat-unit">{unit}</div>
@@ -74,9 +75,8 @@ class StatsListItem extends Component {
     }
 
     const { y } = _.last(values)
-    const value = parseFloat(y)
-      .toFixed(significantDigitsMap[name])
-      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    const roundedValue = parseFloat(y).toFixed(significantDigitsMap[name])
+    const value = commaSeparate(roundedValue)
 
     return descriptionVisible
       ? <StatDescription description={description} hideAgain={this.toggleDescription} />

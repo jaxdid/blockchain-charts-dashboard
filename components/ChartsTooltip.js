@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import commaSeparate from '../helpers/commaSeparate'
 
 export default function ChartsTooltip ({ label, type, data, legendData }) {
   if (!label) return null
@@ -37,10 +38,6 @@ function renderLabel (label, data, color) {
       {`${name}: ${commaSeparatedValue}`}
     </div>
   )
-}
-
-function commaSeparate (numberString) {
-  return numberString.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 }
 
 ChartsTooltip.propTypes = {
