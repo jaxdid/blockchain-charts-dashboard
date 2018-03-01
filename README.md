@@ -2,20 +2,20 @@
 
 A React component dashboard for displaying various Bitcoin-related stats and charts.
 
-### Installation
-1. Clone this project (`git clone https://github.com/jaxdid/blockchain-charts-dashboard.git`) or download the zipped files.
-2. Navigate to the project directory.
-3. Run `npm install` to install all project dependencies.
-4. Run `npm start` to launch a local server and automatically open the project in a new browser tab.
+### :floppy_disk: Installation
+- Clone or download this project.
+- Navigate to the project directory.
+- Run `npm install` to install all project dependencies.
+- Run `npm start` to launch a local server and automatically open the project in a new browser tab.
 
-### Improvements :construction:
+### :construction: Improvements
 - Tests!
 - Fully responsive design (currently scales from ~850x560 up to ~1680x950)
 - Mobile-friendly features (e.g., displaying/hiding descriptions via taps on stats)
 - Improve animation performance when redrawing charts after resizing
 - Allow for changing market price currency using Blockchain Ticker API
 
-### Tech Features :sparkles:
+### :sparkles: Technologies
 - React
 - Webpack
 - Babel
