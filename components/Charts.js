@@ -35,13 +35,21 @@ function renderCharts (data) {
         <LineChart syncId="marketStats" data={lineChartData}>
           <Line type="monotone" dataKey="marketCap" stroke={'#00AEE6'} dot={false} isAnimationActive={false} />
           <Line type="monotone" dataKey="marketPrice" stroke={'#123962'} dot={false} isAnimationActive={false} />
-          <Tooltip content={<ChartsTooltip type="values" data={valuesData} />} />
+          <Tooltip
+            content={<ChartsTooltip type="values" data={valuesData} legendData={{ capsColor: '#00AEE6', pricesColor: '#123962' }} />}
+            animationEasing="linear"
+            animationDuration={100}
+          />
         </LineChart>
       </ResponsiveContainer>
       <ResponsiveContainer className="market-volumes-chart" width={'99%'} height={'99%'}>
         <AreaChart syncId="marketStats" data={areaChartData}>
           <Area type="monotone" dataKey="y" stroke={'#799EB2'} fill={'#799EB2'} dot={false} isAnimationActive={false} />
-          <Tooltip content={<ChartsTooltip type="volumes" data={volumesData} />} />
+          <Tooltip
+            content={<ChartsTooltip type="volumes" data={volumesData} legendData={{ volumesColor: '#799EB2' }} />}
+            animationEasing="linear"
+            animationDuration={100}
+          />
         </AreaChart>
       </ResponsiveContainer>
     </div>
