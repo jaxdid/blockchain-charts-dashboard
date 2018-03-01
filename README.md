@@ -11,7 +11,6 @@ A React component dashboard for displaying various Bitcoin-related stats and cha
 ### :construction: Improvements
 - Tests!
 - Fully responsive design (currently scales from ~850x560 up to ~1680x950)
-- Mobile-friendly features (e.g., displaying/hiding descriptions via taps on stats)
 - Improve animation performance when redrawing charts after resizing
 - Allow for changing market price currency using Blockchain Ticker API
 
