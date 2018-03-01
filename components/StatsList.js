@@ -14,7 +14,7 @@ export default function StatsList ({ data, error }) {
 function renderFailedList () {
   return (
     <div className="error">
-      <div className="error-title">Unable to fetch stats data</div>
+      <div className="error-title">Stats data unavailable</div>
       <div className="error-message">Please refresh your browser or try again later.</div>
     </div>
   )

@@ -16,9 +16,11 @@ export default function Charts ({ data, error }) {
 
 function renderFailedCharts () {
   return (
-    <div className="charts error">
-      <div className="error-title">Charts data unavailable</div>
-      <div className="error-message">Please refresh your browser or try again later.</div>
+    <div className="charts">
+      <div className="error">
+        <div className="error-title">Charts data unavailable</div>
+        <div className="error-message">Please refresh your browser or try again later.</div>
+      </div>
     </div>
   )
 }

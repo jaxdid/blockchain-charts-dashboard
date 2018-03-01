@@ -24,7 +24,7 @@ class ChartsDashboard extends Component {
       'avg-block-size',
       'transactions-per-second',
       'mempool-size',
-      'total-bitcoins'
+      'total-bitecoins'
     ]
 
     const promises = this.createPromises(stats, '1days')
