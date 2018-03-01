@@ -7,8 +7,8 @@ import {
   AreaChart,
   Area,
   Tooltip
-  // YAxis
 } from 'recharts'
+import ChartsTooltip from './ChartsTooltip'
 
 export default function Charts ({ data, error }) {
   return error ? renderFailedCharts() : renderCharts(data)
@@ -27,7 +27,7 @@ function renderCharts (data) {
   const valuesData = extractValuesData(data)
   const volumesData = extractVolumesData(data)
   const lineChartData = transformForLineChart(valuesData)
-  const areaChartData = volumesData.values
+  const areaChartData = volumesData[0].values
 
   return (
     <div className="charts">
@@ -35,13 +35,13 @@ function renderCharts (data) {
         <LineChart syncId="marketStats" data={lineChartData}>
           <Line type="monotone" dataKey="marketCap" stroke={'#00AEE6'} dot={false} isAnimationActive={false} />
           <Line type="monotone" dataKey="marketPrice" stroke={'#123962'} dot={false} isAnimationActive={false} />
-          <Tooltip />
+          <Tooltip content={<ChartsTooltip type="values" data={valuesData} />} />
         </LineChart>
       </ResponsiveContainer>
       <ResponsiveContainer className="market-volumes-chart" width={'99%'} height={'99%'}>
         <AreaChart syncId="marketStats" data={areaChartData}>
           <Area type="monotone" dataKey="y" stroke={'#799EB2'} fill={'#799EB2'} dot={false} isAnimationActive={false} />
-          <Tooltip />
+          <Tooltip content={<ChartsTooltip type="volumes" data={volumesData} />} />
         </AreaChart>
       </ResponsiveContainer>
     </div>
@@ -74,7 +74,7 @@ function extractValuesData (data) {
 }
 
 function extractVolumesData (data) {
-  return data.filter(data => /trade volume/i.test(data.name))[0]
+  return data.filter(data => /trade volume/i.test(data.name))
 }
 
 Charts.propTypes = {
