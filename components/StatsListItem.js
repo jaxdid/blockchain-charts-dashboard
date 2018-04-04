@@ -22,7 +22,7 @@ class StatsListItem extends Component {
 
   renderFailedItem () {
     return (
-      <div className="stats-list-item error">
+      <div className="stats-list-item item-error">
         <div className="stat-name error">{this.state.name || 'Some data is'}</div>
         <div className="stat-value error">Unavailable</div>
         <div className="error-message">Please refresh your browser or try again later.</div>

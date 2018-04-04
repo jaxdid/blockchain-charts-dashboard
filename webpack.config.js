@@ -17,6 +17,14 @@ module.exports = {
       {
         test: /\.less$/,
         use: ['style-loader', 'css-loader', 'less-loader']
+      },
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: 'svg-url-loader'
+          }
+        ]
       }
     ]
   },

@@ -18,6 +18,7 @@ function renderFailedCharts () {
   return (
     <div className="charts">
       <div className="error">
+        <div className="error-icon">🤔</div>
         <div className="error-title">Charts data unavailable</div>
         <div className="error-message">Please refresh your browser or try again later.</div>
       </div>
@@ -33,29 +34,33 @@ function renderCharts (data) {
 
   return (
     <div className="charts">
-      <div className="chart-title">Market Values (USD)</div>
-      <ResponsiveContainer className="market-values-chart" width={'99%'} height={'99%'}>
-        <LineChart syncId="marketStats" data={lineChartData}>
-          <Line type="monotone" dataKey="marketCap" stroke={'#00AEE6'} dot={false} isAnimationActive={false} />
-          <Line type="monotone" dataKey="marketPrice" stroke={'#123962'} dot={false} isAnimationActive={false} />
-          <Tooltip
-            content={<ChartsTooltip type="values" data={valuesData} legendData={{ capsColor: '#00AEE6', pricesColor: '#123962' }} />}
-            animationEasing="linear"
-            animationDuration={100}
-          />
-        </LineChart>
-      </ResponsiveContainer>
-      <div className="chart-title">Market Trade Volumes (USD)</div>
-      <ResponsiveContainer className="market-volumes-chart" width={'99%'} height={'99%'}>
-        <AreaChart syncId="marketStats" data={areaChartData}>
-          <Area type="monotone" dataKey="y" stroke={'#799EB2'} fill={'#799EB2'} dot={false} isAnimationActive={false} />
-          <Tooltip
-            content={<ChartsTooltip type="volumes" data={volumesData} legendData={{ volumesColor: '#799EB2' }} />}
-            animationEasing="linear"
-            animationDuration={100}
-          />
-        </AreaChart>
-      </ResponsiveContainer>
+      <div className="market-values">
+        <div className="chart-title">Market Values (USD)</div>
+        <ResponsiveContainer className="market-values-chart" width={'99%'} height={'99%'}>
+          <LineChart syncId="marketStats" data={lineChartData}>
+            <Line type="monotone" dataKey="marketCap" stroke={'#00AEE6'} dot={false} isAnimationActive={false} />
+            <Line type="monotone" dataKey="marketPrice" stroke={'#123962'} dot={false} isAnimationActive={false} />
+            <Tooltip
+              content={<ChartsTooltip type="values" data={valuesData} legendData={{ capsColor: '#00AEE6', pricesColor: '#123962' }} />}
+              animationEasing="linear"
+              animationDuration={100}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+      <div className="market-volumes">
+        <div className="chart-title">Market Trade Volumes (USD)</div>
+        <ResponsiveContainer className="market-volumes-chart" width={'99%'} height={'99%'}>
+          <AreaChart syncId="marketStats" data={areaChartData}>
+            <Area type="monotone" dataKey="y" stroke={'#799EB2'} fill={'#799EB2'} dot={false} isAnimationActive={false} />
+            <Tooltip
+              content={<ChartsTooltip type="volumes" data={volumesData} legendData={{ volumesColor: '#799EB2' }} />}
+              animationEasing="linear"
+              animationDuration={100}
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   )
 }

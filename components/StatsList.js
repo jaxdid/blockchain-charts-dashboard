@@ -14,6 +14,7 @@ export default function StatsList ({ data, error }) {
 function renderFailedList () {
   return (
     <div className="error">
+      <div className="error-icon">🤔</div>
       <div className="error-title">Stats data unavailable</div>
       <div className="error-message">Please refresh your browser or try again later.</div>
     </div>
@@ -21,6 +22,9 @@ function renderFailedList () {
 }
 
 function renderList (data) {
+  // Uncomment to simulate rendering of a failed statistic (i.e. null response object from API)
+  // data.pop()
+  // data.push(null)
   return data.map((statData, index) => {
     return _.isNull(statData) ? renderFailedListItem(index) : renderListItem(statData)
   })

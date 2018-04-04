@@ -26,13 +26,9 @@ body {
 .activity-indicator {
   width: 2rem;
   height: 2rem;
+  position: fixed;
+  background-image: url('../img/blue-logo.svg');
   animation: loadingAnimation 3s infinite ease-in-out;
-
-  .block {
-    height: 2rem;
-    width: 2rem;
-    position: fixed;
-  }
 
   @keyframes loadingAnimation {
     25% {transform: rotate(90deg);}
@@ -50,19 +46,32 @@ body {
   align-items: center;
   background-color: #f5f7f9;
 
-  .error {
+  > .error {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     color: @bcDarkBlue;
-    padding: 15px;
-    border: 3px dotted @bcDarkBlue;
+    margin-left: 25px;
+    animation: errorBounce 2s infinite ease-in-out;
+
+    .error-icon {
+      font-size: 24px;
+    }
+
+    .error-title {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .error-message {
+      text-align: center;
+    }
   }
 
   .stats-list-item {
-    height: calc(20vh - 35px);
-    width: calc(100% - 45px);
+    height: calc(20vh - 15px);
+    width: calc(100% - 20px);
     background-color: #fff;
     display: flex;
     flex-direction: column;
@@ -70,7 +79,15 @@ body {
     align-items: center;
     padding: 15px;
     position: relative;
+    box-sizing: border-box;
+    box-shadow: -2px 2px 0px rgba(121, 158, 178, 0.33);
   
+    &.item-error {
+      transform: scale(0.9);
+      color: #fff;
+      background-color: @bcDarkBlue; 
+    }
+
     & > div {
       margin: 0;
       padding: 0;
@@ -97,6 +114,12 @@ body {
       align-items: center;
       flex-shrink: 10;
       text-align: center;
+      box-shadow: 0 0 0 #000;
+      transition: box-shadow 0.15s ease-in;
+
+      &:hover {
+        box-shadow: -4px 4px 0px @bcDarkBlue;
+      }
 
       .content {
         width: 70%;
@@ -121,7 +144,7 @@ body {
       color: @bcBrightBlue;
 
       &.error {
-        color: #c4c4c4;
+        color: @bcGrey;
       }
     }
     
@@ -145,6 +168,27 @@ body {
   justify-content: center;
   align-items: center;
   background-color: #f5f7f9;
+
+  .market-values,
+  .market-volumes {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .market-values {
+    flex: 4 0 0;
+  }
+
+  .market-volumes {
+    flex: 1 0 0;
+  }
+
+  .market-values-chart,
+  .market-volumes-chart {
+    background-size: 1rem 1rem;
+    background-image: radial-gradient(circle, rgba(18, 57, 98, 0.3) 1px, rgba(0, 0, 0, 0) 1px);
+  }
 
   .chart-title {
     display: flex;
@@ -183,9 +227,27 @@ body {
     justify-content: center;
     align-items: center;
     color: @bcDarkBlue;
-    padding: 15px;
-    border: 3px dotted @bcDarkBlue;
+    animation: errorBounce 2s infinite ease-in-out;
+
+    .error-icon {
+      font-size: 24px;
+    }
+
+    .error-title {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .error-message {
+      text-align: center;
+    }
   }
+}
+
+@keyframes errorBounce {
+  0% {transform: translateY(-3px);}
+  50% {transform: translateY(3px);}
+  100% {transform: translateY(-3px);}
 }
 
 @media (max-height: 699px) {
@@ -205,8 +267,8 @@ body {
       width: 100vw;
     
       .stats-list-item {
-        height: calc(20vh - 10px);
-        width: calc(20vw - 35px);
+        height: 20vh;
+        width: calc(20vw - 15px);
       }
     }
 
